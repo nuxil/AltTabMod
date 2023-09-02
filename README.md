@@ -94,7 +94,7 @@ And perhaps help improve it as there is probably a better way to approach this.<
 
 
 ## Credits.
-Some of the guys especially Grégori Macário Harbs also know was Mysoft from Irc. freenode/Libera #winapi<br />
+Some of the guys especially Grégori Macário Harbs also know as Mysoft from Irc. freenode/Libera #winapi<br />
 I don't know who else, perhaps MS itself for the OS we use so much, and the guys who made the Tools i have used.<br />
 
 ## License 
