@@ -68,7 +68,7 @@ Build the code<br />
 
 To compile/run the program without the Console window, you probably need some extra flags.<br />
 gcc -Wall -o MyApp.exe res.... -lole32 **-Wl, –subsystem,windows**<br />
-Simple makefile example, check out the [makefile](makefile.html)<br /><br />
+Simple makefile example, check out the [makefile](makefile)<br /><br />
 
 For a 32bit build you might need to do some changes.<br />
 Forexample you might need to add the flag **-F pe-i386** to windres.<br />
