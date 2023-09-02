@@ -98,7 +98,6 @@ Some of the guys especially Mysoft from Irc. freenode/Libera #winapi<br />
 I don't know who else, perhaps MS itself for the OS we use so much, and the guys who made the Tools i have used.<br />
 
 ## License 
-License is:<br />
 Gnu Gpl V2. No discussion.
 
 
