@@ -13,6 +13,9 @@
 #include "main.h"
 
 
+#define Debug(n) (printf("NR:%i\n",n))
+
+
 /**
  * =================================================================
  * @name Global Variables
@@ -301,8 +304,8 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
             // Check if the "Esc" key was pressed. if it was, dont move anything.
             if (EcsKey) { goto end; }
-            
-            int retry = 0;
+
+            INT retry = 0;
             retry_GetForegroundWindow:
             hwnd = GetForegroundWindow();
             if ((hwnd != NULL) && ( hwnd != g_hwnd_taskswitcher)) {
@@ -318,15 +321,16 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
                 RECT wrect = {0};
                 MONITORINFO monitorInfo = {0};
                 monitorInfo.cbSize = sizeof(MONITORINFO);
+                HMONITOR hMonitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);     
+                LONG  wwidth;
+                LONG  wheight;
                 
                 lable_start:
                 GetWindowRect(hwnd, &wrect);
-                LONG  wwidth = wrect.right - wrect.left;
-                LONG  wheight = wrect.bottom - wrect.top;                
+                wwidth = wrect.right - wrect.left;
+                wheight = wrect.bottom - wrect.top;                
                                 
                 // The MonitorFromWindow function retrieves a handle to the display monitor.
-                HMONITOR hMonitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);            
-                
                 // 1. Check the monitor the window is on.
                 // if it is already on the monitor, then don't move it.
                 for (INT i = 0; i < g_num_monitors; i++) {
@@ -387,7 +391,8 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
                         testpos.bottom = npY + (wrect.bottom - wrect.top);
                         
                         if (RECT_INSIDE( mmon, testpos)) {
-                            SetWindowPos(hwnd, HWND_TOPMOST, npX, npY, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+                            //SetWindowPos(hwnd, HWND_TOPMOST, npX, npY, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+                            SetWindowPos(hwnd, HWND_TOPMOST, npX, npY, 0, 0, SWP_SHOWWINDOW | SWP_NOZORDER | SWP_NOSIZE);
                             goto end;
                         }              
                     }
@@ -408,6 +413,7 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
                     LONG npX = (mmon.left + (((mmon.right)  - mmon.left)/2)) - (wwidth / 2) ;
                     LONG npY = (mmon.top  + (((mmon.bottom) - mmon.top)/2))- (wheight / 2) ;
                     SetWindowPos(hwnd, HWND_TOPMOST, npX, npY, 0, 0, SWP_SHOWWINDOW | SWP_NOZORDER | SWP_NOSIZE);
+
                 }
             } else 
             {
@@ -417,6 +423,7 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
                 // try a couple of times. else ignore failure.
                 retry++;
                 if (retry < 3) {
+                    Sleep(20);
                     goto retry_GetForegroundWindow;
                 }
             }
@@ -576,6 +583,10 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR pCmdLine, int nCmd
                     case (WIN7): {
                         g_eventHook = SetWinEventHook(EVENT_MIN, EVENT_MAX, NULL, WinEventProc_Win7, processEntry.th32ProcessID, 0, WINEVENT_OUTOFCONTEXT);
                         if (g_eventHook == 0) { return ERR8; }
+                    } break;
+                    
+                    case (UNKNOWN): {
+                        return ERR4;
                     } break;
                 }
                 
