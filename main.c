@@ -9,11 +9,7 @@
 #include <shlobj.h>
 #include <dwmapi.h>
 #include <VersionHelpers.h>
-
 #include "main.h"
-
-
-#define Debug(n) (printf("NR:%i\n",n))
 
 
 /**
@@ -317,6 +313,20 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
                 // If the window is wider than the target monitor but the window area is smaller. set it to left,top pos of the monitor.
                 // If the window is taller/higher than the target monitor but the window area is smaller. set it to left,top pos of the monitor.               
 
+                // Sometimes we can catch a ForegroundStaging instead of the window we selected in the Task switcher.
+                // We will ignore it and retry to get the foreground window.
+                wchar_t className[256] = {0};
+                GetClassNameW(hwnd, className, sizeof(className));
+                if (wcscmp(className, L"ForegroundStaging") == 0 ) {
+                    retry++;
+                    if (retry < 3) {
+                        Sleep(20);
+                        goto retry_GetForegroundWindow;
+                    }else {
+                        goto end;
+                    }
+                }
+
                 // Get the rect size of the window.
                 RECT wrect = {0};
                 MONITORINFO monitorInfo = {0};
@@ -335,7 +345,7 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
                 // if it is already on the monitor, then don't move it.
                 for (INT i = 0; i < g_num_monitors; i++) {
                     if (EqualRect(&g_monitors[i].rect, &monitorInfo.rcMonitor)) {
-                        if (g_CurrentMonitor == i) {
+                    if (g_CurrentMonitor == i) {
                             goto end;
                         }
                     }
@@ -365,7 +375,8 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
                     SendMessage(hwnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
                     goto end;
                 
-                } // (4,5,6) More check if the window is a "Normal" window.
+                } 
+                // (4,5,6) More check if the window is a "Normal" window.
                 else {
                     // Calculate the area of the monitor and window.
                     LONG monSz = ((mmon.right)  - mmon.left) * ((mmon.bottom) - mmon.top);
@@ -379,7 +390,7 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
                         goto end;
                    // 7. 
                    } else {
-
+                        
                         LONG npX = mmon.left + ( wrect.left - monitorInfo.rcMonitor.left);
                         LONG npY = mmon.top + (wrect.top - monitorInfo.rcMonitor.top );
                         
@@ -391,7 +402,6 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
                         testpos.bottom = npY + (wrect.bottom - wrect.top);
                         
                         if (RECT_INSIDE( mmon, testpos)) {
-                            //SetWindowPos(hwnd, HWND_TOPMOST, npX, npY, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
                             SetWindowPos(hwnd, HWND_TOPMOST, npX, npY, 0, 0, SWP_SHOWWINDOW | SWP_NOZORDER | SWP_NOSIZE);
                             goto end;
                         }              
