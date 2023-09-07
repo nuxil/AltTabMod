@@ -5,7 +5,7 @@ This project does amazing things. Here are some key features:
 - Feature 2 Moves the selected program to the monitor the mouse is on.
 - Feature 3 That is pretty much it. :)
 
-For more information, downaload the [Docs](Docs.7z).
+For more information, downaload the [Docs](Docs.7z).<br />
 Latest version 1.0.0.1 [Downaload](AltTabMod.exe).
 
 
