@@ -6,6 +6,8 @@ This project does amazing things. Here are some key features:
 - Feature 3 That is pretty much it. :)
 
 For more information, downaload the [Docs](Docs.7z).
+Latest version 1.0.0.1 [Downaload](AltTabMod.exe).
+
 
 ## Overview of what AltTabMod does!.
 The TaskSwitcher (Alt Tab) window on MS Windows (10) will always spawn on the primary monitor.<br />
