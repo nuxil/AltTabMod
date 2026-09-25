@@ -1,6 +1,12 @@
 ## AltTabMod Project Documentation
 ![grab-landing-page](overview.gif)
-[▶️ Watch the AltTabMod explanation](AltTabMod-explained.mp4)
+[Watch the AltTabMod explanation](AltTabMod-explained.mp4)
+
+<video controls width="640" height="360" autoplay>
+  <source src="https://github.com/nuxil/AltTabMod/blob/main/AltTabMod-explained.mp4">
+  Your browser does not support the video tag.
+</video>
+
 
 This project does amazing things. Here are some key features:
 - Feature 1 Moves the Task Switcher (Alt+Tab) window to the monitor the mouse is on.
