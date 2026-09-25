@@ -1,5 +1,7 @@
 ## AltTabMod Project Documentation
 ![grab-landing-page](overview.gif)
+[▶️ Watch the AltTabMod explanation](AltTabMod-explained.mp4)
+
 This project does amazing things. Here are some key features:
 - Feature 1 Moves the Task Switcher (Alt+Tab) window to the monitor the mouse is on.
 - Feature 2 Moves the selected program to the monitor the mouse is on.
